@@ -1,0 +1,17 @@
+---
+- name: Collect IOS 'show version' with Genie parser
+  hosts: "{{ my_devices }}"
+  gather_facts: "{{ my_facts }}"
+  connection: network_cli
+  collections:
+    - cisco.ios
+
+  tasks:
+  - name: Execute 'show version'
+    ios_command:
+      commands:
+        - show version
+    register: version
+
+  - debug:
+    var: version

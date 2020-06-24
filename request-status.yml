@@ -1,0 +1,36 @@
+- name: ServiceNow Check Change Request Status
+  hosts: localhost
+  gather_facts: no
+  collections:
+    - servicenow.servicenow
+
+  tasks:
+    - name: Grab Incident Details
+      snow_record_find:
+        username: "{{ lookup('env','SNOW_USER') }}"
+        password: "{{ lookup('env','SNOW_PASSWORD') }}"
+        instance: "{{ lookup('env','SNOW_INSTANCE') }}"
+        # table: change_request or incident
+        query:
+          AND:
+            equals:
+              number: "{{ lookup('env','SNOW_NUMBER') }}"
+      register: incident
+
+    - name: Show Incident details
+      debug:
+        var: incident
+
+    #state
+    # -5 is just created
+    # -4 means approval has been requested
+    # -3 means partial approval
+    # -2 means it has been approved
+    # -1 means it is in the implement stage
+    # 0 means it is in the review state
+    # 3 means CR closed successfully (perhaps with issues)
+
+    #approval
+    # - not requested
+    # - requested
+    # - approved

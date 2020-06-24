@@ -1,0 +1,50 @@
+---
+- name: Using ServiceNow Collection
+  hosts: localhost
+  gather_facts: no
+  collections:
+    - servicenow.servicenow
+  
+  tasks:
+  - name: Modify an Incident
+    snow_record:
+      username: "{{ lookup('env','SNOW_USER') }}"
+      password: "{{ lookup('env','SNOW_PASSWORD') }}"
+      instance: "{{ lookup('env','SNOW_INSTANCE') }}"
+      state: present
+      # table: change_request
+      table: incident
+      number: "{{ lookup('env','SNOW_NUMBER') }}"
+      data:
+        state: -3
+        u_platform: "Test Platform 2"
+    register: incident
+
+  - debug: 
+      var: incident.record.state
+
+
+
+
+#state
+# -5 is just created
+# -4 means approval has been requested
+# -3 means partial approval
+# -2 means it has been approved
+# -1 means it is in the implement stage
+# 0 means it is in the review state
+# 3 means CR closed successfully (perhaps with issues)
+# 4 means cancelled
+# https://docs.servicenow.com/bundle/orlando-it-service-management/page/product/change-management/task/state-model-activate-tasks.html
+
+#approval
+# - not requested
+# - requested
+# - approved
+
+#close_code
+# - successful
+# - successful with issues
+# - unsuccessful
+
+#closed_notes

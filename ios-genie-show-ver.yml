@@ -1,0 +1,18 @@
+---
+- name: Collect IOS 'show version' with Genie parser
+  hosts: "{{ my_devices }}"
+  gather_facts: "{{ my_facts }}"
+  connection: network_cli
+  roles:
+    - clay584.parse_genie
+
+  tasks:
+  - name: Execute 'show version'
+    ios_command:
+      commands:
+        - show version
+    register: version
+
+  - set_stats:
+      data:
+        pyats_version: "{{ version['stdout'][0] | parse_genie(command='show version', os='ios') }}"
