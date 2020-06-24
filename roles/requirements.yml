@@ -1,13 +1,4 @@
 ---
-roles:
-  # Install a role from Ansible Galaxy.
-  - name: clay584.parse_genie
-    source: https://galaxy.ansible.com
-
-collections:
-  # Install a collection from Ansible Galaxy.
-  - name: servicenow.servicenow
-    source: https://galaxy.ansible.com
-
-  - name: cisco.ios
-    source: https://cloud.redhat.com/api/automation-hub/
+# Install a role from Ansible Galaxy.
+- name: clay584.parse_genie
+  source: https://galaxy.ansible.com
