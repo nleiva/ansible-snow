@@ -14,4 +14,4 @@
     register: version
 
   - debug:
-    var: version
+      var: version
