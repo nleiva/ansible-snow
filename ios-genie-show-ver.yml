@@ -16,18 +16,10 @@
       data:
         pyats_version: "{{ parsed_version }}"
 
-  - name: Show parsed command?
+  - name: Show parsed command
     debug:
       var: parsed_version
 
-  - name: Show version 1?
-    debug:
-      var: pyats_version.version.version
-
-  - name: Show version 2?
-    debug:
-      msg: "{{ pyats_version['version']['version'] | default(omit) }}"
-
-  - name: Show version 3?
+  - name: Print Version
     debug:
       msg: "{{ parsed_version['version']['version'] | default(omit) }}"

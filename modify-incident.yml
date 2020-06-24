@@ -8,43 +8,22 @@
   tasks:
   - name: Modify an Incident
     snow_record:
-      username: "{{ lookup('env','SNOW_USER') }}"
-      password: "{{ lookup('env','SNOW_PASSWORD') }}"
-      instance: "{{ lookup('env','SNOW_INSTANCE') }}"
+      username: "{{ lookup('env','SNOW_USER')  | default(snow_user, true)}}"
+      password: "{{ lookup('env','SNOW_PASSWORD') | default(snow_password, true) }}"
+      instance: "{{ lookup('env','SNOW_INSTANCE')  | default(snow_instance, true) }}"
       state: present
       # table: change_request
       table: incident
-      number: "{{ lookup('env','SNOW_NUMBER') }}"
+      number: "{{ lookup('env','SNOW_NUMBER') | default(snow_number, true) }}"
       data:
-        state: -3
-        u_platform: "Test Platform 2"
+        u_device_up_time: "{{ pyats_version.version.uptime | default('N/A', true)  }}"
+        u_ios_version: "{{ pyats_version.version.version | default('N/A', true)  }}"
+        u_hostname: "{{ pyats_version.version.hostname | default('N/A', true)  }}"
+        u_platform: "{{ pyats_version.version.platform | default('N/A', true)  }}"
+        u_device_type: "{{ pyats_version.version.rtr_type | default('N/A', true)  }}"
+        u_serial_number: "{{ pyats_version.version.chassis_sn | default('N/A', true)  }}"
+        u_last_reload_reason: "{{ pyats_version.version.last_reload_reason | default('N/A', true)  }}"
     register: incident
 
   - debug: 
       var: incident.record.state
-
-
-
-
-#state
-# -5 is just created
-# -4 means approval has been requested
-# -3 means partial approval
-# -2 means it has been approved
-# -1 means it is in the implement stage
-# 0 means it is in the review state
-# 3 means CR closed successfully (perhaps with issues)
-# 4 means cancelled
-# https://docs.servicenow.com/bundle/orlando-it-service-management/page/product/change-management/task/state-model-activate-tasks.html
-
-#approval
-# - not requested
-# - requested
-# - approved
-
-#close_code
-# - successful
-# - successful with issues
-# - unsuccessful
-
-#closed_notes
