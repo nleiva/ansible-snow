@@ -4,6 +4,9 @@ These playbooks are meant to run as a Workflow to demonstrate the use of Cisco I
 
 ![Workflow][1]
 
+The output should be something like this:
+
+![ServiceNow][2]
 
 ## Dependencies:
 
@@ -74,3 +77,4 @@ export SNOW_NUMBER=INC0010002
 
 
 [1]: images/snow_workflow.png
+[2]: images/snow_view.png
