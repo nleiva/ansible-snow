@@ -8,11 +8,14 @@
 
   tasks:
   - name: Parse 'show version'
-    set_stats:
+    set_fact:
+      # show_version comes from a previous Job Template in a Workflow
+      parsed_version: "{{ show_version | parse_genie(command='show version', os='ios') }}"
+
+  - set_stats:
       data:
-        # show_version comes from a previous Job Template in a Workflow
-        pyats_version: "{{ show_version | parse_genie(command='show version', os='ios') }}"
+        pyats_version: "{{ parsed_version }}"
 
   - name: Show parsed command
     debug:
-      var: pyats_version
+      var: "{{ parsed_version }}"
