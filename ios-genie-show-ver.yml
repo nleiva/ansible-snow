@@ -1,5 +1,5 @@
 ---
-- name: Collect IOS 'show version' with Genie parser
+- name: Parse IOS 'show version' with Genie parser
   hosts: "{{ my_devices }}"
   gather_facts: "{{ my_facts }}"
   connection: network_cli
@@ -7,12 +7,12 @@
     - clay584.parse_genie
 
   tasks:
-  - name: Execute 'show version'
-    ios_command:
-      commands:
-        - show version
-    register: version
-
-  - set_stats:
+  - name: Parse 'show version'
+    set_stats:
       data:
-        pyats_version: "{{ version['stdout'][0] | parse_genie(command='show version', os='ios') }}"
+        # show_version comes from a previous Job Template in a Workflow
+        pyats_version: "{{ show_version | parse_genie(command='show version', os='ios') }}"
+
+  - name: Show parsed command
+    debug:
+      var: pyats_version

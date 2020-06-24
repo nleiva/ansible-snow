@@ -1,5 +1,6 @@
 ---
-- name: Collect IOS 'show version' with Genie parser
+# Having hard time running this on a Python3 venv
+- name: Collect IOS 'show version' using Cisco IOS Collection
   hosts: "{{ my_devices }}"
   gather_facts: "{{ my_facts }}"
   connection: network_cli
@@ -16,3 +17,7 @@
   - name: Show output command
     debug:
       var: version
+
+  - set_stats:
+      data:
+        show_version: "{{ version['stdout'][0] }}"
