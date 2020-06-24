@@ -1,28 +1,37 @@
-# Ansible Service Now examples
+# Ansible Service Now example
+
+These playbooks are meant to run as a Workflow to demonstrate the use of Cisco IOS and Service Now collections from Galaxy and the Automation Hub. Each Playbook can run in a different Python virtual enviroment (`venv`).
+
+![Workflow][1]
 
 
-## Install Collection
+## Dependencies:
 
-Dependencies:
+### Python libraries
 
 ```bash
-pip3 install pysnow
+pip3 install pysnow pyats[library]
 ```
 
-Collection:
-
+### Collections
 
 ```bash
 ansible-galaxy collection install servicenow.servicenow
+ansible-galaxy collection install cisco.ios
 ```
 
-[Installing roles and collections from the same requirements.yml file](https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#installing-roles-and-collections-from-the-same-requirements-yml-file)
-While both roles and collections can be specified in one requirements file, they need to be installed separately. The `ansible-galaxy role install -r requirements.yml` will only install roles and `ansible-galaxy collection install -r requirements.yml` -p ./ will only install collections.
+### Roles
+
+```bash
+ansible-galaxy role install -r roles/requirements.yml
+```
+
+While both roles and collections can be specified in one requirements file, they need to be installed separately. The `ansible-galaxy role install -r requirements.yml` will only install roles and `ansible-galaxy collection install -r requirements.yml` -p ./ will only install collections. See [Installing roles and collections from the same requirements.yml file](https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#installing-roles-and-collections-from-the-same-requirements-yml-file).
 
 
-## Running the examples
+## Running the examples locally for testing
 
-Export variables:
+You can pass extra vars `snow_instance`, `snow_user`, and `snow_password` or export environment variables:
 
 ```bash
 export SNOW_INSTANCE=<dev12345> # without '.service-now.com'
@@ -62,3 +71,6 @@ export SNOW_NUMBER=INC0010002
 - [Ansible + ServiceNow Part 2: Parsing facts from network devices using PyATS/Genie](https://www.ansible.com/blog/ansible-servicenow-part-2-parsing-facts-from-network-devices-using-pyats/genie)
 - [Ansible + ServiceNow Part 3: Making outbound RESTful API calls to Red Hat Ansible Tower](https://www.ansible.com/blog/ansible-servicenow-howto-part-3-making-outbound-restful-api-calls-to-ansible-tower)
 - [Governing Self-Service Cloud Provisioning](https://github.com/michaelford85/aws-deploy)
+
+
+[1]: images/snow_workflow.png
