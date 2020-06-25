@@ -7,8 +7,8 @@
   tasks:
     - name: Grab Incident Details
       snow_record_find:
-        username: "{{ lookup('env','SNOW_USER') }}"
-        password: "{{ lookup('env','SNOW_PASSWORD') }}"
+        username: "{{ lookup('env','SN_USERNAME') }}"
+        password: "{{ lookup('env','SN_PASSWORD') }}"
         instance: "{{ lookup('env','SNOW_INSTANCE') }}"
         # table: change_request or incident
         query:

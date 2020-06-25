@@ -1,3 +1,4 @@
 hosts
 env.sh
 temp*
+ansible_collections

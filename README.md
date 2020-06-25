@@ -29,7 +29,7 @@ ansible-galaxy collection install cisco.ios
 ansible-galaxy role install -r roles/requirements.yml
 ```
 
-While both roles and collections can be specified in one requirements file, they need to be installed separately. The `ansible-galaxy role install -r requirements.yml` will only install roles and `ansible-galaxy collection install -r requirements.yml` -p ./ will only install collections. See [Installing roles and collections from the same requirements.yml file](https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#installing-roles-and-collections-from-the-same-requirements-yml-file).
+While both roles and collections can be specified in one requirements file, they need to be installed separately. The `ansible-galaxy role install -r requirements.yml` will only install roles and `ansible-galaxy collection install -r requirements.yml -p ./` will only install collections. See [Installing roles and collections from the same requirements.yml file](https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#installing-roles-and-collections-from-the-same-requirements-yml-file).
 
 
 ## Running the examples locally for testing
@@ -38,8 +38,8 @@ You can pass extra vars `snow_instance`, `snow_user`, and `snow_password` or exp
 
 ```bash
 export SNOW_INSTANCE=<dev12345> # without '.service-now.com'
-export SNOW_USER=<admin>
-export SNOW_PASSWORD=<password>
+export SN_USERNAME=<admin>
+export SN_PASSWORD=<password>
 ```
 
 Run any of the playbooks:
@@ -66,6 +66,53 @@ To run the rest of them, you need to export the incident number you got.
 export SNOW_NUMBER=INC0010002
 ```
 
+## Inventory
+
+```bash
+export SN_INSTANCE=<dev12345.service-now.com> # with '.service-now.com'
+export SN_USERNAME=<admin>
+export SN_PASSWORD=<password>
+```
+
+1.
+
+```json
+ ⇨  ansible-inventory -i inventory-snow.yml --list
+{
+    "_meta": {
+        "hostvars": {
+            "AS400": {
+                "sn_fqdn": "",
+                "sn_host_name": "",
+                "sn_ip_address": "",
+                "sn_name": "AS400",
+                "sn_sys_class_name": "Server"
+            },
+            ...
+```
+
+2.
+
+```bash
+⇨  ansible-inventory -i inventory-snow.yml --graph
+@all:
+  |--@sn_AIX_Server:
+  |  |--SAP_AppSRV01
+  |  |--SAP_AppSRV02
+  |--@sn_Linux_Server:
+  |  |--PS_LinuxApp01
+  |  |--PS_LinuxApp02
+  |  |--lnux100
+  |  |--lnux101
+  |--@sn_Server:
+  |  |--AS400
+  |  |--ApplicationServerHelpdesk
+  |  |--ApplicationServerPeopleSoft
+  |  |--Car_1
+  ...
+
+```
+
 
 ## Links
 
@@ -74,6 +121,8 @@ export SNOW_NUMBER=INC0010002
 - [Ansible + ServiceNow Part 2: Parsing facts from network devices using PyATS/Genie](https://www.ansible.com/blog/ansible-servicenow-part-2-parsing-facts-from-network-devices-using-pyats/genie)
 - [Ansible + ServiceNow Part 3: Making outbound RESTful API calls to Red Hat Ansible Tower](https://www.ansible.com/blog/ansible-servicenow-howto-part-3-making-outbound-restful-api-calls-to-ansible-tower)
 - [Governing Self-Service Cloud Provisioning](https://github.com/michaelford85/aws-deploy)
+- [Using inventory plugins](https://docs.ansible.com/ansible/latest/plugins/inventory.html#using-inventory-plugins)
+- [Jinja2 to construct vars and groups based on existing inventory](https://docs.ansible.com/ansible/latest/plugins/inventory/constructed.html)
 
 
 [1]: images/snow_workflow.png

@@ -8,8 +8,8 @@
   tasks:
   - name: Create an incident
     snow_record:
-      username: "{{ lookup('env','SNOW_USER')  | default(snow_user, true)}}"
-      password: "{{ lookup('env','SNOW_PASSWORD') | default(snow_password, true) }}"
+      username: "{{ lookup('env','SN_USERNAME')  | default(snow_user, true)}}"
+      password: "{{ lookup('env','SN_PASSWORD') | default(snow_password, true) }}"
       instance: "{{ lookup('env','SNOW_INSTANCE')  | default(snow_instance, true) }}"
       state: present
       data:
