@@ -1,0 +1,46 @@
+---
+# https://raw.githubusercontent.com/michaelford85/ansible-servicenow-exercises/master/snow-populate-ios.yml
+# ansible-playbook -i hosts add-to-inventory.yml -e="my_devices=ios, my_facts=yes"
+
+
+-
+  hosts: "{{ my_devices }}"
+  gather_facts: "{{ my_facts }}"
+ 
+  tasks: 
+    - name: Set vendor fact by network platform
+      block:
+        - name: Set vendor fact to Cisco
+          set_fact: vendor="Cisco"
+      when: ansible_network_os in ('ios', 'nxos', 'iosxr')
+
+
+    - name: Create a network host record for "{{ inventory_hostname }}"
+      snow_record:
+        state: present
+        # Routers (cmdb_ci_ip_router) and Switches (cmdb_ci_ip_switch) are a subset of Network Gear (cmdb_ci_netgear)
+        # table: cmdb_ci_netgear
+        table: cmdb_ci_ip_router
+        username: "{{ lookup('env','SN_USERNAME')  | default(snow_user, true)}}"
+        password: "{{ lookup('env','SN_PASSWORD') | default(snow_password, true) }}"
+        instance: "{{ lookup('env','SNOW_INSTANCE')  | default(snow_instance, true) }}"
+        data:
+          name: "{{ inventory_hostname }}"
+          manufacturer: "{{ vendor }}"
+          firmware_manufacturer: "{{ vendor }}"
+          vendor: "{{ vendor }}"
+          device_type: router
+          model_number: "{{ ansible_facts.net_model }}"
+          assigned_to: "Alejandra Prenatt"
+          firmware_version: "{{ ansible_facts.net_version }}"
+          serial_number: "{{ ansible_facts.net_serialnum }}"
+          ip_address: '{{ ansible_facts.net_interfaces["GigabitEthernet1"].ipv4[0].address }}'
+          mac_address: '{{ ansible_facts.net_interfaces["GigabitEthernet1"].macaddress }}'
+          ports: '{{ ansible_facts.net_interfaces["GigabitEthernet1"].mediatype }}'
+          ram: "{{ ansible_net_memtotal_mb }}"
+          can_route: true
+          short_description: " {{ ansible_net_model }} running {{ ansible_net_iostype }} {{ ansible_net_version }}"
+      register: new_host
+
+    - debug: var=new_host.record
+    # - debug: var=hostvars

@@ -3,12 +3,10 @@ plugin: servicenow.servicenow.now
 # instance: Reads from env variable SN_INSTANCE
 # username: Reads from env variable SN_USERNAME
 # password: Reads from env variable SN_PASSWORD
-selection_order: name
+selection_order: name, ip_address
+table: cmdb_ci_netgear # default cmdb_ci_server
 # fields:
-#   - os
 #   - ip_address
-#   - fqdn
-#   - host_name
 #   - sys_class_name
 #   - name
 # groups:
@@ -16,6 +14,4 @@ selection_order: name
 #   SAP: inventory_hostname.startswith('SAP')
 keyed_groups:
     - key: sn_sys_class_name
-      prefix: sn
-#     - key: host_name | lower
-#       prefix: 'HN'
+      prefix: group

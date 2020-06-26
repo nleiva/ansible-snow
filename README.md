@@ -77,18 +77,62 @@ export SN_PASSWORD=<password>
 1.
 
 ```json
- ⇨  ansible-inventory -i inventory-snow.yml --list
+⇨  ansible-inventory -i inventory-snow.yml --list
 {
     "_meta": {
         "hostvars": {
-            "AS400": {
+            "DataNoc_gw01_lanset_net": {
                 "sn_fqdn": "",
-                "sn_host_name": "",
-                "sn_ip_address": "",
-                "sn_name": "AS400",
-                "sn_sys_class_name": "Server"
+                "sn_ip_address": "208.187.161.1",
+                "sn_name": "DataNoc.gw01.lanset.net",
+                "sn_sys_class_name": "Network Gear"
+            },
+            "IP_Router_1": {
+                "sn_fqdn": "",
+                "sn_ip_address": "10.0.0.1",
+                "sn_name": "IP-Router-1",
+                "sn_sys_class_name": "IP Router"
             },
             ...
+            "ny8500_nbxs09": {
+                "sn_fqdn": "",
+                "sn_ip_address": "10.2.40.1",
+                "sn_name": "ny8500-nbxs09",
+                "sn_sys_class_name": "Network Gear"
+            }
+        }
+    },
+    "all": {
+        "children": [
+            "group_IP_Router",
+            "group_IP_Switch",
+            "group_Network_Gear",
+            "ungrouped"
+        ]
+    },
+    "group_IP_Router": {
+        "hosts": [
+            "IP_Router_1",
+            "IP_Router_2",
+            "IP_Router_3"
+        ]
+    },
+    "group_IP_Switch": {
+        "hosts": [
+            "IP_Switch_1"
+        ]
+    },
+    "group_Network_Gear": {
+        "hosts": [
+            "DataNoc_gw01_lanset_net",
+            "San_Diego_Gateway",
+            "nc6500_a01",
+            "ny8500_nbxs08",
+            "ny8500_nbxs09"
+        ]
+    }
+}
+
 ```
 
 2.
@@ -96,23 +140,22 @@ export SN_PASSWORD=<password>
 ```bash
 ⇨  ansible-inventory -i inventory-snow.yml --graph
 @all:
-  |--@sn_AIX_Server:
-  |  |--SAP_AppSRV01
-  |  |--SAP_AppSRV02
-  |--@sn_Linux_Server:
-  |  |--PS_LinuxApp01
-  |  |--PS_LinuxApp02
-  |  |--lnux100
-  |  |--lnux101
-  |--@sn_Server:
-  |  |--AS400
-  |  |--ApplicationServerHelpdesk
-  |  |--ApplicationServerPeopleSoft
-  |  |--Car_1
-  ...
-
+  |--@group_IP_Router:
+  |  |--IP_Router_1
+  |  |--IP_Router_2
+  |  |--IP_Router_3
+  |--@group_IP_Switch:
+  |  |--IP_Switch_1
+  |--@group_Network_Gear:
+  |  |--DataNoc_gw01_lanset_net
+  |  |--San_Diego_Gateway
+  |  |--nc6500_a01
+  |  |--ny8500_nbxs08
+  |  |--ny8500_nbxs09
+  |--@ungrouped:
 ```
 
+You can add hosts to your inventory with `snow_record`. Take a look at this [example](https://github.com/michaelford85/ansible-servicenow-exercises/blob/master/snow-populate-ios.yml)
 
 ## Links
 
