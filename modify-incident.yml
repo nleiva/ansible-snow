@@ -4,11 +4,11 @@
   gather_facts: no
   collections:
     - servicenow.servicenow
-  
+
   tasks:
   - name: Modify an Incident
     snow_record:
-      username: "{{ lookup('env','SN_USERNAME')  | default(snow_user, true)}}"
+      username: "{{ lookup('env','SN_USERNAME')  | default(snow_user, true) }}"
       password: "{{ lookup('env','SN_PASSWORD') | default(snow_password, true) }}"
       instance: "{{ lookup('env','SNOW_INSTANCE')  | default(snow_instance, true) }}"
       state: present
@@ -25,5 +25,5 @@
         u_last_reload_reason: "{{ pyats_version.version.last_reload_reason | default('N/A', true)  }}"
     register: incident
 
-  - debug: 
+  - debug:
       var: incident.record.state

@@ -6,8 +6,8 @@
 -
   hosts: "{{ my_devices }}"
   gather_facts: "{{ my_facts }}"
- 
-  tasks: 
+
+  tasks:
     - name: Set vendor fact by network platform
       block:
         - name: Set vendor fact to Cisco
@@ -21,7 +21,7 @@
         # Routers (cmdb_ci_ip_router) and Switches (cmdb_ci_ip_switch) are a subset of Network Gear (cmdb_ci_netgear)
         # table: cmdb_ci_netgear
         table: cmdb_ci_ip_router
-        username: "{{ lookup('env','SN_USERNAME')  | default(snow_user, true)}}"
+        username: "{{ lookup('env','SN_USERNAME')  | default(snow_user, true) }}"
         password: "{{ lookup('env','SN_PASSWORD') | default(snow_password, true) }}"
         instance: "{{ lookup('env','SNOW_INSTANCE')  | default(snow_instance, true) }}"
         data:

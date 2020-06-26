@@ -18,6 +18,7 @@
     debug:
       var: version
 
-  - set_stats:
+  - name: Save command output
+    set_stats:
       data:
         show_version: "{{ version['stdout'][0] }}"
