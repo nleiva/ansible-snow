@@ -68,94 +68,94 @@ export SNOW_NUMBER=INC0010002
 
 ## Inventory
 
+First, you need to export `SN_INSTANCE`, `SN_USERNAME, and `SN_PASSWORD`. These identify your Service Now instance and credentials. For example:
+
 ```bash
 export SN_INSTANCE=<dev12345.service-now.com> # with '.service-now.com'
 export SN_USERNAME=<admin>
 export SN_PASSWORD=<password>
 ```
 
-1.
+1. You can grab the display your full inventory
 
-```json
-⇨  ansible-inventory -i inventory-snow.yml --list
-{
-    "_meta": {
-        "hostvars": {
-            "DataNoc_gw01_lanset_net": {
-                "sn_fqdn": "",
-                "sn_ip_address": "208.187.161.1",
-                "sn_name": "DataNoc.gw01.lanset.net",
-                "sn_sys_class_name": "Network Gear"
-            },
-            "IP_Router_1": {
-                "sn_fqdn": "",
-                "sn_ip_address": "10.0.0.1",
-                "sn_name": "IP-Router-1",
-                "sn_sys_class_name": "IP Router"
-            },
-            ...
-            "ny8500_nbxs09": {
-                "sn_fqdn": "",
-                "sn_ip_address": "10.2.40.1",
-                "sn_name": "ny8500-nbxs09",
-                "sn_sys_class_name": "Network Gear"
+    ```json
+    ⇨  ansible-inventory -i inventory-snow.yml --list
+    {
+        "_meta": {
+            "hostvars": {
+                "DataNoc_gw01_lanset_net": {
+                    "sn_fqdn": "",
+                    "sn_ip_address": "208.187.161.1",
+                    "sn_name": "DataNoc.gw01.lanset.net",
+                    "sn_sys_class_name": "Network Gear"
+                },
+                "IP_Router_1": {
+                    "sn_fqdn": "",
+                    "sn_ip_address": "10.0.0.1",
+                    "sn_name": "IP-Router-1",
+                    "sn_sys_class_name": "IP Router"
+                },
+                ...
             }
+        },
+        "all": {
+            "children": [
+                "group_IP_Router",
+                "group_IP_Switch",
+                "group_Network_Gear",
+                "ungrouped"
+            ]
+        },
+        "group_IP_Router": {
+            "hosts": [
+                "IP_Router_1",
+                "IP_Router_2",
+                "IP_Router_3"
+            ]
+        },
+        "group_IP_Switch": {
+            "hosts": [
+                "IP_Switch_1"
+            ]
+        },
+        "group_Network_Gear": {
+            "hosts": [
+                "DataNoc_gw01_lanset_net",
+                "San_Diego_Gateway",
+                "nc6500_a01",
+                "ny8500_nbxs08",
+                "ny8500_nbxs09"
+            ]
         }
-    },
-    "all": {
-        "children": [
-            "group_IP_Router",
-            "group_IP_Switch",
-            "group_Network_Gear",
-            "ungrouped"
-        ]
-    },
-    "group_IP_Router": {
-        "hosts": [
-            "IP_Router_1",
-            "IP_Router_2",
-            "IP_Router_3"
-        ]
-    },
-    "group_IP_Switch": {
-        "hosts": [
-            "IP_Switch_1"
-        ]
-    },
-    "group_Network_Gear": {
-        "hosts": [
-            "DataNoc_gw01_lanset_net",
-            "San_Diego_Gateway",
-            "nc6500_a01",
-            "ny8500_nbxs08",
-            "ny8500_nbxs09"
-        ]
     }
-}
 
-```
+    ```
 
-2.
+2. Or see it as a graph based on the `keyed_groups`
 
-```bash
-⇨  ansible-inventory -i inventory-snow.yml --graph
-@all:
-  |--@group_IP_Router:
-  |  |--IP_Router_1
-  |  |--IP_Router_2
-  |  |--IP_Router_3
-  |--@group_IP_Switch:
-  |  |--IP_Switch_1
-  |--@group_Network_Gear:
-  |  |--DataNoc_gw01_lanset_net
-  |  |--San_Diego_Gateway
-  |  |--nc6500_a01
-  |  |--ny8500_nbxs08
-  |  |--ny8500_nbxs09
-  |--@ungrouped:
-```
+    ```bash
+    ⇨  ansible-inventory -i inventory-snow.yml --graph
+    @all:
+    |--@group_IP_Router:
+    |  |--IP_Router_1
+    |  |--IP_Router_2
+    |  |--IP_Router_3
+    |--@group_IP_Switch:
+    |  |--IP_Switch_1
+    |--@group_Network_Gear:
+    |  |--DataNoc_gw01_lanset_net
+    |  |--San_Diego_Gateway
+    |  |--nc6500_a01
+    |  |--ny8500_nbxs08
+    |  |--ny8500_nbxs09
+    |--@ungrouped:
+    ```
 
-You can add hosts to your inventory with `snow_record`. Take a look at this [example](https://github.com/michaelford85/ansible-servicenow-exercises/blob/master/snow-populate-ios.yml)
+In Tower, you will want to import this on Inventory sources. Have `ANSIBLE_INVENTORY_ENABLED: auto` as well as the other required variables in the `ENVIRONMENT VARIABLES` section.
+
+![ServiceNow][3]
+
+Last, but not least, you can add hosts to your inventory with `snow_record`. Take a look at this [example](add-to-inventory.yml)
 
 ## Links
 
@@ -170,3 +170,4 @@ You can add hosts to your inventory with `snow_record`. Take a look at this [exa
 
 [1]: images/snow_workflow.png
 [2]: images/snow_view.png
+[3]: images/snow_inventory_tower.png
