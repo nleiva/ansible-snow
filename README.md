@@ -1,10 +1,10 @@
 # Ansible Service Now example
 
-These playbooks are meant to run as a Workflow to demonstrate the use of Cisco IOS and Service Now collections from Galaxy and the Automation Hub. Each Playbook can run in a different Python virtual enviroment (`venv`).
+These playbooks are meant to run as a Workflow to demonstrate the use of [C]isco IOS](https://cloud.redhat.com/ansible/automation-hub/cisco/ios) and [Service Now](https://galaxy.ansible.com/servicenow/servicenow) collections from [Galaxy](https://galaxy.ansible.com) and the Red Hat [Automation Hub](https://cloud.redhat.com/ansible/automation-hub). Each Playbook can run in a different Python virtual enviroment (`venv`).
 
 ![Workflow][1]
 
-The output should be something like this:
+This workflow parses data from a Cisco IOS device to create and update an incident. The output should look like this in [Service Now](https://developer.servicenow.com/dev.do):
 
 ![ServiceNow][2]
 
@@ -46,8 +46,6 @@ Run any of the playbooks:
 
 ```python
 ⇨  ansible-playbook create-incident.yml 
-[WARNING]: No inventory was parsed, only implicit localhost is available
-[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
 
 PLAY [Using ServiceNow Collection] ******************************************************************************************************************************************
 
@@ -68,7 +66,7 @@ export SNOW_NUMBER=INC0010002
 
 ## Inventory
 
-First, you need to export `SN_INSTANCE`, `SN_USERNAME, and `SN_PASSWORD`. These identify your Service Now instance and credentials. For example:
+First, you need to export `SN_INSTANCE`, `SN_USERNAME`, and `SN_PASSWORD`. These identify your [Service Now](https://developer.servicenow.com/dev.do) instance and credentials. For example:
 
 ```bash
 export SN_INSTANCE=<dev12345.service-now.com> # with '.service-now.com'
