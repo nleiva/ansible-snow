@@ -1,5 +1,7 @@
 # Ansible Service Now example
 
+![Ansible Lint](https://github.com/nleiva/ansible-snow/workflows/Ansible%20Lint/badge.svg)
+
 These playbooks are meant to run as a Workflow to demonstrate the use of [Cisco IOS](https://cloud.redhat.com/ansible/automation-hub/cisco/ios) and [Service Now](https://galaxy.ansible.com/servicenow/servicenow) collections from [Galaxy](https://galaxy.ansible.com) and the Red Hat [Automation Hub](https://cloud.redhat.com/ansible/automation-hub). Each Playbook can run in a different Python virtual enviroment (`venv`).
 
 ![Workflow][1]
