@@ -5,4 +5,4 @@ collections:
     source: https://galaxy.ansible.com
 
   - name: cisco.ios
-    source: https://cloud.redhat.com/api/automation-hub/
+    source: https://console.redhat.com/api/automation-hub/
