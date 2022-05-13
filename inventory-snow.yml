@@ -1,17 +1,7 @@
 ---
 plugin: servicenow.servicenow.now
-# instance: Reads from env variable SN_INSTANCE
-# username: Reads from env variable SN_USERNAME
-# password: Reads from env variable SN_PASSWORD
 selection_order: name, ip_address
 table: cmdb_ci_netgear # default cmdb_ci_server
-# fields:
-#   - ip_address
-#   - sys_class_name
-#   - name
-# groups:
-#   large: (sn_disk_space | int) > 100
-#   SAP: inventory_hostname.startswith('SAP')
 keyed_groups:
     - key: sn_sys_class_name
       prefix: group

@@ -1,6 +1,6 @@
 - name: ServiceNow Check Change Request Status
   hosts: localhost
-  gather_facts: no
+  gather_facts: false
   collections:
     - servicenow.servicenow
 
@@ -21,7 +21,7 @@
       debug:
         var: incident
 
-    #state
+    # state
     # -5 is just created
     # -4 means approval has been requested
     # -3 means partial approval
@@ -30,7 +30,7 @@
     # 0 means it is in the review state
     # 3 means CR closed successfully (perhaps with issues)
 
-    #approval
+    # approval
     # - not requested
     # - requested
     # - approved

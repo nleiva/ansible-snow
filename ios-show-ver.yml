@@ -8,17 +8,17 @@
     - cisco.ios
 
   tasks:
-  - name: Execute 'show version'
-    ios_command:
-      commands:
-        - show version
-    register: version
+    - name: Execute 'show version'
+      ios_command:
+        commands:
+          - show version
+      register: version
 
-  - name: Show output command
-    debug:
-      var: version
+    - name: Show output command
+      debug:
+        var: version
 
-  - name: Save command output
-    set_stats:
-      data:
-        show_version: "{{ version['stdout'][0] }}"
+    - name: Save command output
+      set_stats:
+        data:
+          show_version: "{{ version['stdout'][0] }}"

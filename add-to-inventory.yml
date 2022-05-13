@@ -1,8 +1,6 @@
 ---
 # https://raw.githubusercontent.com/michaelford85/ansible-servicenow-exercises/master/snow-populate-ios.yml
 # ansible-playbook -i hosts add-to-inventory.yml -e="my_devices=ios, my_facts=yes"
-
-
 -
   hosts: "{{ my_devices }}"
   gather_facts: "{{ my_facts }}"
@@ -43,4 +41,3 @@
       register: new_host
 
     - debug: var=new_host.record
-    # - debug: var=hostvars

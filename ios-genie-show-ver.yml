@@ -7,20 +7,20 @@
     - parse_genie
 
   tasks:
-  - name: Parse 'show version'
-    set_fact:
-      # show_version comes from a previous Job Template in a Workflow
-      parsed_version: "{{ show_version | parse_genie(command='show version', os='ios') }}"
+    - name: Parse 'show version'
+      set_fact:
+        # show_version comes from a previous Job Template in a Workflow
+        parsed_version: "{{ show_version | parse_genie(command='show version', os='ios') }}"
 
-  - name: Save parsed output
-    set_stats:
-      data:
-        pyats_version: "{{ parsed_version }}"
+    - name: Save parsed output
+      set_stats:
+        data:
+          pyats_version: "{{ parsed_version }}"
 
-  - name: Show parsed command
-    debug:
-      var: parsed_version
+    - name: Show parsed command
+      debug:
+        var: parsed_version
 
-  - name: Print Version
-    debug:
-      msg: "{{ parsed_version['version']['version'] | default(omit) }}"
+    - name: Print Version
+      debug:
+        msg: "{{ parsed_version['version']['version'] | default(omit) }}"
